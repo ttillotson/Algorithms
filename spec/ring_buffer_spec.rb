@@ -1,4 +1,5 @@
 require "ring_buffer"
+require 'byebug'
 
 describe RingBuffer do
   it "starts out empty" do
@@ -6,6 +7,7 @@ describe RingBuffer do
     expect(arr.length).to eq(0)
     expect do
       arr[0]
+      # debugger
     end.to raise_error("index out of bounds")
   end
 
@@ -27,6 +29,7 @@ describe RingBuffer do
 
     5.times { |i| arr.unshift(i) }
     expect(arr.length).to eq(5)
+    # debugger
     5.times { |i| expect(arr[i]).to eq(4 - i) }
 
     4.downto(0) do |i|
@@ -42,12 +45,11 @@ describe RingBuffer do
       arr.push(i)
       arr.unshift(i)
     end
-
     4.times do |i|
       expect(arr[i]).to eq(3-i)
       expect(arr[i+4]).to eq(i)
     end
-
+    
     3.downto(0) do |i|
       expect(arr.shift).to eq(i)
       expect(arr.pop).to eq(i)
