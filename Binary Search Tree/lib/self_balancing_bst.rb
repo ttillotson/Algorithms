@@ -27,7 +27,7 @@ class BinarySearchTree
                 parent.left = node
                 node.parent = parent
                 node.color = :red
-                balance_tree(node)
+                balance_insertion(node)
             end
         end
 
@@ -40,12 +40,12 @@ class BinarySearchTree
                 parent.right = node
                 node.parent = parent
                 node.color = :red
-                balance_tree(node)
+                balance_insertion(node)
             end
         end
     end
 
-    def balance_tree(z_node)
+    def balance_insertion(z_node)
         if z_node.uncle.color == :red
             z_node.grandparent.color = :red unless z_node.grandparent == @root 
             z_node.parent.color = :black 
@@ -70,6 +70,22 @@ class BinarySearchTree
                 @root = parent if grandparent == @root 
                 cousin = (parent.value <= z_node.value ? parent.left : parent.right)
                 
+                # Move Parent up
+                parent.parent = grandparent.parent 
+                grandparent.parent = parent 
+                parent.color = :black
+                grandparent.color = :red
+                cousin.parent = grandparent
+                # Move Grandparent Down
+                if parent.value > grandparent.value
+                    parent.left = grandparent
+                    parent.right = z_node
+                    grandparent.right = cousin
+                else 
+                    parent.right = grandparent 
+                    parent.left = z_node
+                    grandparent.left = cousin 
+                end
             end
         end
     end
