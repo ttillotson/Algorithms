@@ -62,38 +62,28 @@ class BinarySearchTree
 
       # Transition Replacement Out (rep_node)
       # Assign pointers to former parent/left-child
-      rep_node.parent.right = rep_node.left
-      rep_node.left.parent = rep_node.parent
+      reassign_parent(rep_node, rep_node.left)
 
       # Transition Replacement Into Deleted's Spot
       # Assign Node's children to Replacement
-      rep_node.left = node.left 
-      rep_node.left.parent = rep_node
-      rep_node.right = node.right
-      rep_node.right.parent = rep_node
+      reassign_children(node, rep_node)
 
       # Tell the parent it has a new child
-      node.parent.left = rep_node if node.parent.left = node
-      node.parent.right = rep_node if node.parent.right = node
+      reassign_parent(node, rep_node)
+
     elsif node.left || node.right
       rep_node = node.left
       rep_node ||= node.right 
 
-      rep_node.left = node.left 
-      rep_node.left.parent = rep_node if rep_node.left
-      rep_node.right = node.right
-      rep_node.right.parent = rep_node if rep_node.right
+      reassign_children(node, rep_node)
 
       # Tell the parent it has a new child
-      node.parent.left = rep_node if node.parent.left = node
-      node.parent.right = rep_node if node.parent.right = node
+      reassign_parent(node, rep_node)
+
     else # No Children
       @root = nil unless node.parent
 
-      if node.parent
-        node.parent.left = nil if node.parent.left = node
-        node.parent.right = nil if node.parent.right = node
-      end
+      reassign_parent(node) if node.parent
     end
   end
 
@@ -115,12 +105,15 @@ class BinarySearchTree
 
   private
   # optional helper methods go here:
-  def reassign_children(old_node, new_node=nil)
-
+  def reassign_children(old_node, rep_node=nil)
+    rep_node.left = old_node.left 
+    rep_node.left.parent = rep_node if rep_node.left
+    rep_node.right = old_node.right
+    rep_node.right.parent = rep_node if rep_node.right
   end
 
   def reassign_parent(old_node, new_node=nil)
-    node.parent.left = new_node if node.parent.left = node
-    node.parent.right = new_node if node.parent.right = node
+    old_node.parent.left = new_node if old_node.parent.left = old_node
+    old_node.parent.right = new_node if old_node.parent.right = old_node
   end
 end
