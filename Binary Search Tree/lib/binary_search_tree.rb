@@ -121,7 +121,6 @@ class BinarySearchTree
     arr 
   end
 
-
   private
 
   # optional helper methods go here:
