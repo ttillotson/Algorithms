@@ -10,7 +10,7 @@ class BSTNode
     @parent = nil
   end
 
-  def inspect
-    "Node: value=#{@value} parent=#{@parent.value} right=#{@right.value} left=#{@left.value}"
-  end
+  # def inspect
+  #   "Node: value=#{@value} parent=#{@parent.value} right=#{@right.value} left=#{@left.value}"
+  # end
 end
