@@ -61,11 +61,9 @@ class BinarySearchTree
       rep_node = maximum(node.left) 
 
       # Transition Replacement Out (rep_node)
-      # Assign pointers to former parent/left-child
       reassign_parent(rep_node, rep_node.left)
 
       # Transition Replacement Into Deleted's Spot
-      # Assign Node's children to Replacement
       reassign_children(node, rep_node)
 
       # Tell the parent it has a new child
@@ -76,8 +74,6 @@ class BinarySearchTree
       rep_node ||= node.right 
 
       reassign_children(node, rep_node)
-
-      # Tell the parent it has a new child
       reassign_parent(node, rep_node)
 
     else # No Children
@@ -94,9 +90,22 @@ class BinarySearchTree
   end
 
   def depth(tree_node = @root)
+    return 0 unless tree_node.left || tree_node.right 
+    
+    left, right = 1, 1
+    (left += depth(tree_node.left)) if tree_node.left
+    (right += depth(tree_node.right)) if tree_node.right
+
+    (left >= right ? left : right)
   end 
 
   def is_balanced?(tree_node = @root)
+    depth_diff = (depth(tree_node.left) - depth(tree_node.right)).abs
+    return false if depth_diff > 1
+    debugger
+    (return false unless is_balanced?(tree_node.left)) if tree_node.left
+    (return false unless is_balanced?(tree_node.right)) if tree_node.right
+    true
   end
 
   def in_order_traversal(tree_node = @root, arr = [])
@@ -105,14 +114,16 @@ class BinarySearchTree
 
   private
   # optional helper methods go here:
-  def reassign_children(old_node, rep_node=nil)
+  def reassign_children(old_node, rep_node = nil)
+    # Reassign pointers for rep_node
     rep_node.left = old_node.left 
     rep_node.left.parent = rep_node if rep_node.left
     rep_node.right = old_node.right
     rep_node.right.parent = rep_node if rep_node.right
   end
 
-  def reassign_parent(old_node, new_node=nil)
+  def reassign_parent(old_node, new_node = nil)
+    # Tell the parent it has a new child
     old_node.parent.left = new_node if old_node.parent.left = old_node
     old_node.parent.right = new_node if old_node.parent.right = old_node
   end
