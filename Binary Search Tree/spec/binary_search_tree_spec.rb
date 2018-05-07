@@ -1,3 +1,4 @@
+require 'byebug'
 require 'rspec'
 require 'binary_search_tree'
 

@@ -1,3 +1,4 @@
+require 'byebug'
 require_relative 'bst_node'
 # There are many ways to implement these methods, feel free to add arguments 
 # to methods as you see fit, or to create helper methods.
@@ -9,12 +10,14 @@ class BinarySearchTree
   end
 
   def insert(value, parent = @root)
+    # First Insert is assigned to Root
     unless @root 
       @root = BSTNode.new(value)
       @root.parent = nil
       return
     end
 
+    # Logic for a value smaller than the parent
     if value <= parent.value 
       if parent.left
         insert(value, parent.left) 
@@ -25,6 +28,7 @@ class BinarySearchTree
       end
     end
 
+    # Logic for a value larger than the parent
     if value > parent.value 
       if parent.right
         insert(value, parent.right) 
@@ -34,10 +38,16 @@ class BinarySearchTree
         node.parent = parent
       end
     end
-
   end
 
   def find(value, tree_node = @root)
+    return tree_node if value == tree_node.value
+    # Base Cases
+    return nil if value < tree_node.value && !tree_node.left
+    return nil if value > tree_node.value && !tree_node.right
+    # Recursive Step
+    return find(value, tree_node.left) if value < tree_node.value
+    return find(value, tree_node.right) if value > tree_node.value
 
   end
 
