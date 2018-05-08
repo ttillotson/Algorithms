@@ -1,3 +1,4 @@
+require 'byebug'
 require 'rspec'
 require 'topological_sort'
 
