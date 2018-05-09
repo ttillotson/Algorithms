@@ -1,3 +1,4 @@
+require 'byebug'
 require 'rspec'
 require 'dynamic_programming'
 require 'rspec-benchmark'
